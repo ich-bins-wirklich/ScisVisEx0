@@ -71,6 +71,7 @@ protected:
 	///           object.
 
 	// < your code here >
+	bool use_custom_quad;
 
 	/// [END] Task 1.1
 	/// ********************************************************************************/
@@ -113,7 +114,8 @@ public:
 		  )),
 		  texture("uint8[R,G,B,A]", cgv::render::TF_LINEAR, cgv::render::TF_LINEAR),
 		  fb_bgcolor_r(0.9f), fb_bgcolor_g(0.9f), fb_bgcolor_b(0.9f),
-		  bgcolor(fb_bgcolor_r, fb_bgcolor_g, fb_bgcolor_b), draw_backside(true)
+		  bgcolor(fb_bgcolor_r, fb_bgcolor_g, fb_bgcolor_b), draw_backside(true),
+		  use_custom_quad(false)
 	{}
 
 	// Should be overwritten to sensibly implement the cgv::base::named interface
@@ -143,7 +145,8 @@ public:
 			rh.reflect_member("fb_bgcolor_r", fb_bgcolor_r) &&
 			rh.reflect_member("fb_bgcolor_g", fb_bgcolor_g) &&
 			rh.reflect_member("fb_bgcolor_b", fb_bgcolor_b) &&
-			rh.reflect_member("draw_backside", draw_backside);
+			rh.reflect_member("draw_backside", draw_backside) &&
+			rh.reflect_member("use_custom_quad", use_custom_quad);
 	}
 
 	// Part of the cgv::base::base interface, should be implemented to respond to write
@@ -332,6 +335,7 @@ public:
 		///           and the one built into the cgv::render::context.
 
 		// < Your code here >
+		add_member_control(this, "use custom quad tesselation", use_custom_quad);
 
 		/// [END] Task 1.1
 		///*****************************************************************************/
@@ -473,8 +477,9 @@ public:
 				/// Task 1.1: If enabled, render the quad with custom tesselation
 				///           instead of using tesselate_unit_square(). You can invoke
 				///           the method draw_my_unit_square() for this.
-
-				ctx.tesselate_unit_square();
+				
+				if (use_custom_quad) draw_my_unit_square(ctx);
+				else ctx.tesselate_unit_square();
 
 				/// ********************************************************************/
 
@@ -491,7 +496,11 @@ public:
 					///           can invoke the method draw_my_unit_square() for this.
 
 					if (draw_backside)
-						ctx.tesselate_unit_square();
+					{
+						if (use_custom_quad) draw_my_unit_square(ctx);
+						else ctx.tesselate_unit_square();
+					}
+						
 
 					/// ****************************************************************/
 				glPopAttrib();
