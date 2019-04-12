@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Dll|Win32'">
+    <LocalDebuggerCommand>C:\Users\Markus\Documents\ScivVis\build\bin\cgv_viewer_d141.exe</LocalDebuggerCommand>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Dll|Win32'">
+    <LocalDebuggerCommandArguments> plugin:cg_fltk_d141.dll plugin:crg_stereo_view_d141.dll plugin:crg_light_d141.dll plugin:cg_ext_d141.dll plugin:cg_icons_d141.dll plugin:scivis-intro_d141.dll "type(shader_config):shader_path='C:\Users\Markus\Documents\ScivVis\cgv/libs/cgv_gl/glsl'" config:"C:\Users\Markus\Documents\ScivVis\0-intro-student/config.def"</LocalDebuggerCommandArguments>
+    <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
+    <LocalDebuggerWorkingDirectory>C:\Users\Markus\Documents\ScivVis\cgv/libs/cgv_gl/glsl</LocalDebuggerWorkingDirectory>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Dll|Win32'">
+    <LocalDebuggerCommand>C:\Users\Markus\Documents\ScivVis\build\bin\cgv_viewer_141.exe</LocalDebuggerCommand>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Dll|Win32'">
+    <LocalDebuggerCommandArguments> plugin:cg_fltk_141.dll plugin:crg_stereo_view_141.dll plugin:crg_light_141.dll plugin:cg_ext_141.dll plugin:cg_icons_141.dll plugin:scivis-intro_141.dll "type(shader_config):shader_path='C:\Users\Markus\Documents\ScivVis\cgv/libs/cgv_gl/glsl'" config:"C:\Users\Markus\Documents\ScivVis\0-intro-student/config.def"</LocalDebuggerCommandArguments>
+    <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
+    <LocalDebuggerWorkingDirectory>C:\Users\Markus\Documents\ScivVis\cgv/libs/cgv_gl/glsl</LocalDebuggerWorkingDirectory>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LocalDebuggerCommandArguments> "type(shader_config):shader_path='C:\Users\Markus\Documents\ScivVis\cgv/libs/cgv_gl/glsl'" config:"C:\Users\Markus\Documents\ScivVis\0-intro-student/config.def"</LocalDebuggerCommandArguments>
+    <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
+    <LocalDebuggerWorkingDirectory>C:\Users\Markus\Documents\ScivVis\cgv/libs/cgv_gl/glsl</LocalDebuggerWorkingDirectory>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LocalDebuggerCommandArguments> "type(shader_config):shader_path='C:\Users\Markus\Documents\ScivVis\cgv/libs/cgv_gl/glsl'" config:"C:\Users\Markus\Documents\ScivVis\0-intro-student/config.def"</LocalDebuggerCommandArguments>
+    <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
+    <LocalDebuggerWorkingDirectory>C:\Users\Markus\Documents\ScivVis\cgv/libs/cgv_gl/glsl</LocalDebuggerWorkingDirectory>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Exe|Win32'">
+    <LocalDebuggerCommandArguments> "type(shader_config):shader_path='C:\Users\Markus\Documents\ScivVis\cgv/libs/cgv_gl/glsl'" config:"C:\Users\Markus\Documents\ScivVis\0-intro-student/config.def"</LocalDebuggerCommandArguments>
+    <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
+    <LocalDebuggerWorkingDirectory>C:\Users\Markus\Documents\ScivVis\cgv/libs/cgv_gl/glsl</LocalDebuggerWorkingDirectory>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Exe|Win32'">
+    <LocalDebuggerCommandArguments> "type(shader_config):shader_path='C:\Users\Markus\Documents\ScivVis\cgv/libs/cgv_gl/glsl'" config:"C:\Users\Markus\Documents\ScivVis\0-intro-student/config.def"</LocalDebuggerCommandArguments>
+    <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
+    <LocalDebuggerWorkingDirectory>C:\Users\Markus\Documents\ScivVis\cgv/libs/cgv_gl/glsl</LocalDebuggerWorkingDirectory>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ShowAllFiles>false</ShowAllFiles>
+  </PropertyGroup>
+</Project>

@@ -12,3 +12,7 @@ type(cgv_demo):use_custom_quad=true
 
 
 /// Task 1.2: Set appropriate values for your drawable that renders the cube fractal.
+type(cgv_cubes):cube_r=1.0
+type(cgv_cubes):cube_g=0.0
+type(cgv_cubes):cube_b=0.0
+type(cgv_cubes):recursion_depth=2
