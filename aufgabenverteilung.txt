@@ -1,0 +1,6 @@
+In diesem Repo sind die Quelldateien für das Plugin, das geschrieben werden soll. Das dazugehörige Projekt musst du dir selbst generieren, die .zip gibt's auf Opal.
+
+Markus: Aufgabe 1.1 (bis Freitag)
+Martin: Aufgabe 1.2 (bis Ende Montag)
+
+Außerdem sieht die 1.3.1 nicht so schwer aus, die sollten wir versuchen, zu implementieren.
