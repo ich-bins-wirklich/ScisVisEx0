@@ -16,3 +16,4 @@ type(cgv_cubes):cube_r=1.0
 type(cgv_cubes):cube_g=0.0
 type(cgv_cubes):cube_b=0.0
 type(cgv_cubes):recursion_depth=2
+type(cgv_cubes):va_mode=0
