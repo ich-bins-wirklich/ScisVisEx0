@@ -44,8 +44,8 @@ void cubes_fractal::draw_recursive (
 	ctx.mul_modelview_matrix(cgv::math::scale4<double>(0.5, 0.5, 0.5));
 
 	// Render the cube
-	//material.set_diffuse_reflectance(color);
-	//ctx.set_material(material);
+	material.set_diffuse_reflectance(color);
+	ctx.set_material(material);
 	if (va)
 	{
 		// Use the vertex array
