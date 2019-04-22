@@ -69,7 +69,7 @@ void cubes_fractal::draw_recursive (
 		// Transform to node position
 		ctx.mul_modelview_matrix(
 			  // rotate around z-axis by -90, 0, 90 or 180 degrees
-			  cgv::math::rotate4<double>(signed(i)*90 - 90, 0, 0, 1)
+			  cgv::math::rotate4<double> (signed(i)*90 - 90, 0, 0, 1)
 			  // move along x-axis by 2 relative units
 			* cgv::math::translate4<double>(2, 0, 0)
 		);
