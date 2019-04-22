@@ -512,6 +512,10 @@ public:
 	}
 
 	// Creates the custom geometry for the quad
+	
+	// http://infocenter.arm.com/help/index.jsp?topic=/com.arm.doc.dui0527a/CHDDDCDC.html
+	
+	
 	void init_unit_square_geometry (void)
 	{
 		// Prepare array
