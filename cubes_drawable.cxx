@@ -1,11 +1,3 @@
-// This source code is property of the Computer Graphics and Visualization chair of the
-// TU Dresden. Do not distribute! 
-// Copyright (C) CGV TU Dresden - All Rights Reserved
-//
-// The main file of the plugin. It defines a class that demonstrates how to register with
-// the scene graph, drawing primitives, creating a GUI, using a config file and various
-// other parts of the framework.
-
 // Framework core
 #include <cgv/base/register.h>
 #include <cgv/gui/provider.h>
@@ -13,31 +5,20 @@
 #include <cgv/render/drawable.h>
 #include <cgv/render/render_types.h>
 #include <cgv/render/shader_program.h>
+#include <cgv/render/texture.h>
+#include <cgv/render/frame_buffer.h>
 #include <cgv/render/vertex_buffer.h>
 #include <cgv/render/attribute_array_binding.h>
+#include <cgv/media/font/font.h>
 #include <cgv/math/ftransform.h>
 
 // Framework standard plugins
 #include <cgv_gl/gl/gl.h>
 
-// Local includes
-#include "cubes_fractal.h"
+#include <cubes_fractal.h>
 
-
-
-/// ************************************************************************************/
-/// Task 1.2a: Create a drawable that provides a (for now, empty) GUI and supports
-///            reflection, so that its properties can be set via config file.
-///
-/// Task 1.2b: Utilize the cubes_fractal class to render a fractal of hierarchically
-///            transformed cubes. Expose its recursion depth and color properties to GUI
-///            manipulation and reflection. Set reasonable values via the config
-///            file.
-///
-/// Task 1.2c: Implement an option (configurable via GUI and config file) to use a vertex
-///            array object for rendering the cubes. The vertex array functionality 
-///            should support (again, configurable via GUI and config file) both
-///            interleaved (as in cgv_demo.cpp) and non-interleaved attributes.
+const int VERTEX_COUNT = 14,
+VERTEX_ARRAY_STRIDE = 3;
 
 class cgv_cubes
 	: public cgv::base::base,      // This class supports reflection
@@ -46,12 +27,24 @@ class cgv_cubes
 {
 
 protected:
+
+
+
 	unsigned int recursion_depth;
-	float cube_r, cube_g, cube_b;
 	enum VaMode { NO_VERTEX_ARRAY, INTERLEAVED, NON_INTERLEAVED } va_mode;
+	float cube_r, cube_g, cube_b;
 
 	cgv::media::color<float> cube_color;
 	cubes_fractal fractal;
+
+	struct vertex {
+		cgv::render::render_types::vec3 pos;
+		cgv::render::render_types::vec2 tcoord;
+	};
+	std::vector<vertex> vertices;
+	cgv::render::vertex_buffer vb;
+	cgv::render::attribute_array_binding vertex_array;
+
 
 
 public:
@@ -102,6 +95,11 @@ public:
 			cube_b = cube_color.B();
 		}
 
+		if (member_ptr == &va_mode) {
+			if (va_mode == NO_VERTEX_ARRAY) fractal.use_vertex_array(nullptr, 0, GL_QUADS);
+			else fractal.use_vertex_array(&vertex_array, vertices.size(), GL_TRIANGLE_STRIP);
+		}
+
 
 		// Make sure the GUI reflects the new state, in case the write access did not
 		// originate from GUI interaction
@@ -113,7 +111,7 @@ public:
 	}
 
 	// We use this for validating GUI input
-	bool gui_check_value(cgv::gui::control<int> &ctrl)
+	bool gui_check_value(cgv::gui::control<int>& ctrl)
 	{
 
 		// Check passed
@@ -121,7 +119,7 @@ public:
 	}
 
 	// We use this for acting upon validated GUI input
-	void gui_value_changed(cgv::gui::control<int> &ctrl)
+	void gui_value_changed(cgv::gui::control<int>& ctrl)
 	{
 
 		// Redraw the scene
@@ -153,29 +151,113 @@ public:
 		// immediatly) to perform every init step even if some go wrong.
 		bool success = true;
 
+		init_unit_cube_geometry();
+
+		cgv::render::shader_program& default_shader
+			= ctx.ref_default_shader_program(true);
+
+		cgv::render::type_descriptor
+			vec2type =
+			cgv::render::element_descriptor_traits<cgv::render::render_types::vec2>
+			::get_type_descriptor(vertices[0].tcoord),
+			vec3type =
+			cgv::render::element_descriptor_traits<cgv::render::render_types::vec3>
+			::get_type_descriptor(vertices[0].pos);
+		// - create buffer objects
+		success = vb.create(ctx, &(vertices[0]), vertices.size()) && success;
+		success = vertex_array.create(ctx) && success;
+		success = vertex_array.set_attribute_array(
+			ctx, default_shader.get_position_index(), vec3type, vb,
+			0, // position is at start of the struct <-> offset = 0
+			vertices.size(), // number of position elements in the array
+			sizeof(vertex) // stride from one element to next
+		) && success;
+		success = vertex_array.set_attribute_array(
+			ctx, default_shader.get_texcoord_index(), vec2type, vb,
+			sizeof(vertex::pos), // texture coords come after position in our struct
+			vertices.size(), // number of texcoord elements in the array
+			sizeof(vertex) // stride from one element to next
+		) && success;
+
+
 		// All initialization has been attempted
 		return success;
 	}
 
 	void draw(cgv::render::context& ctx)
 	{
-		cgv::render::shader_program &default_shader = ctx.ref_surface_shader_program(false);
+		cgv::render::shader_program& default_shader = ctx.ref_surface_shader_program(false);
 		default_shader.enable(ctx);
+		ctx.set_color(rgb(1.0f));
+
+		/* if (use_vertex_array) {
+
+			unsigned int num_vertices;
+			switch (recursion_depth) {
+			case 0:
+				num_vertices = 8 * 1;
+				break;
+			case 1:
+				num_vertices = 8 * (1 + 4);
+				break;
+
+			default:
+				num_vertices = 8 * (1 + 4 + 3 * (recursion_depth - 2));
+				break;
+			}
+
+			bool success = true;
+		}*/
 
 		fractal.draw_recursive(ctx, cube_color, recursion_depth, 0);
 
 		default_shader.disable(ctx);
 	}
 
+	void init_unit_cube_geometry(void)
+	{
+
+
+		// http://www.cs.umd.edu/gvil/papers/av_ts.pdf
+		// https://stackoverflow.com/questions/28375338/cube-using-single-gl-triangle-strip
+		// Efficient GL_TRIANGLE_STRIP method
+		static float vertices_data_array[VERTEX_COUNT * VERTEX_ARRAY_STRIDE] = {
+
+			// FRONT
+			-1.f, 1.f, 1.f,     // Front-top-left
+			1.f, 1.f, 1.f,      // Front-top-right
+			-1.f, -1.f, 1.f,    // Front-bottom-left
+			1.f, -1.f, 1.f,     // Front-bottom-right
+			1.f, -1.f, -1.f,    // Back-bottom-right
+			1.f, 1.f, 1.f,      // Front-top-right
+			1.f, 1.f, -1.f,     // Back-top-right
+			-1.f, 1.f, 1.f,     // Front-top-left
+			-1.f, 1.f, -1.f,    // Back-top-left
+			-1.f, -1.f, 1.f,    // Front-bottom-left
+			-1.f, -1.f, -1.f,   // Back-bottom-left
+			1.f, -1.f, -1.f,    // Back-bottom-right
+			-1.f, 1.f, -1.f,    // Back-top-left
+			1.f, 1.f, -1.f      // Back-top-right
+
+		};
+
+		vertices.resize(VERTEX_COUNT);
+		for (int i = 0; i < VERTEX_COUNT; i += 1) {
+			int current_data_array_index_base = i * VERTEX_ARRAY_STRIDE;
+			vertices[i].pos.set(
+				vertices_data_array[current_data_array_index_base],
+				vertices_data_array[current_data_array_index_base + 1],
+				vertices_data_array[current_data_array_index_base + 2]
+			);
+			vertices[i].tcoord.set(
+				i / VERTEX_COUNT,
+				i / VERTEX_COUNT
+			);
+		}
+	}
+
 
 };
 
-/// [END] Tasks 1.2a, 1.2b and 1.2c
-/// ************************************************************************************/
-
-
-
-/// ************************************************************************************/
-/// Task 1.2a: register an instance of your drawable.
 // Create an instance of the cubes class at plugin load and register it with the framework
 cgv::base::object_registration<cgv_cubes> cgv_cubes_registration("");
