@@ -1,8 +1,0 @@
-0-intro-student
-cgv
-build
-	bin
-	lib
-	vs141
-		scivis-intro <--
-		rest
