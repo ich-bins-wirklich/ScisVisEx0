@@ -646,6 +646,34 @@ public:
 
              /*<your_code_here>*/
 
+			float t = z_near * tan(fovy / 2);
+			float b = -t;
+			float l = b * aspect;
+			float r = t * aspect;
+
+			mat4 P_frustum = frustum4<float>(l, r, b, t, z_near, z_far);
+
+			mat4 trans_matrix;
+			trans_matrix.identity();
+			trans_matrix(0, 3) = eye * 0.5 * eye_separation;
+
+			mat4 shear_matrix;
+			shear_matrix.identity();
+			shear_matrix(0, 2) = eye * 0.5 * eye_separation / parallax_zero_depth;
+
+			P_frustum *= trans_matrix;
+			P_frustum *= shear_matrix;
+
+			if (cyclopic_lighting) {
+				ctx.set_modelview_matrix(ctx.get_modelview_matrix());
+				ctx.set_projection_matrix(P_frustum);
+			}
+			else {
+				mat4 MV_matrix = trans_matrix * ctx.get_modelview_matrix();
+
+				ctx.set_modelview_matrix(MV_matrix);
+				ctx.set_projection_matrix(P_frustum);
+			}
             /***********************************************************************************/
 
             // store per eye modelview projection matrix to hand over to finalization pass
