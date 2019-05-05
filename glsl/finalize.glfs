@@ -1,4 +1,4 @@
-﻿#version 150
+#version 150
 
 uniform sampler2D col_tex_0;
 uniform sampler2D col_tex_1;
@@ -25,6 +25,10 @@ uniform float remap_epsilon = 0.01;
 uniform float parallax_scale;
 uniform int anaglyph_mode;
 
+
+const float anaglyph_ra_r = 0.299,
+			anaglyph_ra_g = 0.587,
+			anaglyph_ra_b = 0.114;
  /*<your_unforms_here>*/
 
 
@@ -147,7 +151,12 @@ void main()
                   combine the color channels of each view in such a way that result in true anaglyph.
                   You can utilize the 'Y' variable for this. */
 
-             /*<your_code_here>*/
+             frag_color = vec4(
+				anaglyph_ra_r * c_0.r + anaglyph_ra_g * c_0.g + anaglyph_ra_b * c_0.b,
+				0.0,
+				anaglyph_ra_r * c_1.r + anaglyph_ra_g * c_1.g + anaglyph_ra_b * c_1.b,
+				1.0
+			 );
 
             /***********************************************************************************/
             break;
@@ -157,18 +166,32 @@ void main()
                   combine the color channels of each view in such a way that result in true anaglyph.
                   You can utilize the 'Y' variable for this. */
 
-             /*<your_code_here>*/
+             frag_color = vec4(
+				anaglyph_ra_r * c_0.r + anaglyph_ra_g * c_0.g + anaglyph_ra_b * c_0.b,
+				anaglyph_ra_r * c_1.r + anaglyph_ra_g * c_1.g + anaglyph_ra_b * c_1.b,
+				anaglyph_ra_r * c_1.r + anaglyph_ra_g * c_1.g + anaglyph_ra_b * c_1.b,
+				1.0
+			 );
 
             /***********************************************************************************/
             break;
         case 2: // color
-            frag_color = vec4(c_0.r, c_1.g, c_1.b, 1.0);
-            break;
+            
+			frag_color = vec4(c_0.r, c_1.g, c_1.b, 1.0);		
+			break;
+
         case 3: // half color
             /************************************************************************************
              tasks 1.2.a:  half color anaglyph
                   combine the color channels of each view in such a way that result in true anaglyph.
                   You can utilize the 'Y' variable for this. */
+
+			 frag_color = vec4(
+				anaglyph_ra_r * c_0.r + anaglyph_ra_g * c_0.g + anaglyph_ra_b * c_0.b,
+				c_1.g,
+				c_1.b,
+				1.0
+			 );
 
              /*<your_code_here>*/
 
