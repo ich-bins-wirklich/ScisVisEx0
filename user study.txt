@@ -1,0 +1,8 @@
+user study stereo perception
+
+eye seperation	user 1 rating	user 2 rating
+0.1		8		7,5
+0.08		7,5		9
+
+=> User 2 braucht eine höhere eye seperation, um den Tiefeneffekt besser wahrnehmen zu können, als User 1.
+
