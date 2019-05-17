@@ -18,6 +18,7 @@ struct sphere_quad_info
 
 
 uniform float pixel_extent_per_depth;
+uniform float radius;
 
 in mat3 NM[];
 in mat4 MV[];
@@ -46,6 +47,14 @@ void generate_quad_vertex(in vec4 sphere_center, in vec2 t, in sphere_parameter_
                  clip coordinates. You may want to compute some other variables here as well.*/
 
      /*<your_code_here>*/
+
+	 vec3 diff = vec3(sphere_center[0] - sps.m_tilde[0], sphere_center[1] - sps.m_tilde[1], sphere_center[2] - sps.m_tilde[2]);
+	 float m_sq = diff[0]*diff[0] + diff[1]*diff[1] + diff[2]*diff[2];
+
+	 float rho = sqrt(radius*radius - m_sq);
+
+	 vec3 pos = sps.m_tilde + rho * (t[0] * sps.x_tilde + t[1] * sps.y_tilde);
+	 //gl_Position(vec4(pos[0], pos[1], pos[2], 1));
 
     /************************************************************************************/
 

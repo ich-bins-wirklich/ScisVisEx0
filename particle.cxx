@@ -192,8 +192,6 @@ public:
 			exit(0);
 		}
 
-		mat4
-
 		// - create buffer objects
 		bool success = true;
 		success = vb_pos.create(ctx, &(positions[0]), positions.size()) && success;

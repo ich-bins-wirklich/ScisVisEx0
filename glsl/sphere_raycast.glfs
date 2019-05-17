@@ -4,6 +4,8 @@ uniform int culling_mode = 0;
 uniform int map_color_to_material = 0;
 uniform int illumination_mode = 2;
 
+uniform float radius;
+
 struct sphere_quad_info
 {
     vec2 q_tilde;
@@ -13,6 +15,8 @@ struct sphere_quad_info
 in sphere_quad_info quad;
 
 in vec4 color_fs;
+
+in vec4 position;
 
 
 //***** begin interface of surface.glsl ***********************************
@@ -32,14 +36,27 @@ bool compute_ray_sphere_intersection(out vec3 p_eye, out vec3 n_eye)
                   for an easy intersection test based on texture coordinates.*/
 
      /*<your_code_here>*/
+	 float q_length_sq = quad.q_tilde[0]+quad.q_tilde[0] + quad.q_tilde[1]+quad.q_tilde[1];
+	 if(q_length_sq > 1)
+		return false;
 
     /************************************************************************************/
 
     /************************************************************************************
      tasks 2.1c:  Compute the position (p_eye) and the normal (n_eye) of the intersection
                   point in eye coordinates.*/
-
+	 
      /*<your_code_here>*/
+	 vec3 diff = vec3(p_eye[0] - position[0], p_eye[1] - position[1], p_eye[2] - position[2]);
+	 float length_diff = sqrt(diff[0]*diff[0] + diff[1]*diff[1] + diff[2]*diff[2]);
+	 float beta = radius * sqrt(1.0 - q_length_sq) / length_diff;
+	 float lambda = 1.0 / (1.0 + beta);
+
+	 p_eye = p_eye + lambda * n_eye;
+	 
+	 diff = vec3(p_eye[0] - position[0], p_eye[1] - position[1], p_eye[2] - position[2]);
+	 length_diff = sqrt(diff[0]*diff[0] + diff[1]*diff[1] + diff[2]*diff[2]);
+	 n_eye = 1 / length_diff * diff;
 
     /************************************************************************************/
 
