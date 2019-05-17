@@ -49,6 +49,12 @@ void main()
                  center at origin)*/
 
      /*<your_code_here>*/
+	 float e = sqrt(position[0]*position[0] + position[1]*position[1] + position[2]*position[2]);
+	 float m = radius * radius / e;
+	 sps.m_tilde = vec3(position[0], position[1], position[2]);
+	 sps.m_tilde *= -m / e;
+
+
 
     /************************************************************************************/
 
