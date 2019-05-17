@@ -1,4 +1,0 @@
-﻿In diesem Repo sind die Quelldateien für das Plugin, das geschrieben werden soll. Das dazugehörige Projekt musst du dir selbst generieren, die .zip gibt's auf Opal.
-
-Markus: 0.1, 0.2 a+b (erledigt)
-Martin: 0.2 c, 0.3.1
