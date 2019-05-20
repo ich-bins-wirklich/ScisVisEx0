@@ -54,7 +54,7 @@ void generate_quad_vertex(in vec4 sphere_center, in vec2 t, in sphere_parameter_
 	 float rho = sqrt(radius*radius - m_sq);
 
 	 vec3 pos = sps.m_tilde + rho * (t[0] * sps.x_tilde + t[1] * sps.y_tilde);
-	 //gl_Position(vec4(pos[0], pos[1], pos[2], 1));
+	 gl_Position = vec4(pos[0], pos[1], pos[2], 1);
 
     /************************************************************************************/
 

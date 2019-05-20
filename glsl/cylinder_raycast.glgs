@@ -58,7 +58,7 @@ void main()
 	*/
 
 	mat4 hM_ucyl_world = mat4(0.0);
-	mat3 M_ucyl_world;
+	mat3 M_ucyl_world = mat3(0.0);
 
 	/************************************************************************************
      tasks 2.2a:  Compute the vectors u,v,t defining the cylinder orientation. Then
@@ -67,6 +67,36 @@ void main()
     				which is used for the normal transformation matrix */
 
      /*<your_code_here>*/
+	 /*mat4 mv_i = get_inverse_modelview_matrix();
+	 vec3 pos0 = vec3(mv_i[0][0],mv_i[0][1], mv_i[0][2]);
+	 vec3 pos1 = pos0;
+	 pos1[0][1] += 1;
+
+	 vec3 t = pos1 - pos0;
+	 vec3 u = vec3(1, 0, 0);
+	 vec3 v = vec3(0, 0, 1);
+
+	 float R = 0.5;
+
+	 hM_ucyl_world[0][0] = pos0[0];
+	 hM_ucyl_world[1][0] = pos0[1];
+	 hM_ucyl_world[2][0] = pos0[2];
+	 hM_ucyl_world[3][0] = 1;
+
+	 hM_ucyl_world[0][1] = pos1[0];
+	 hM_ucyl_world[1][1] = pos1[1];
+	 hM_ucyl_world[2][1] = pos1[2];
+	 hM_ucyl_world[3][1] = 1;
+
+	 hM_ucyl_world[0][2] = R * u[0];
+	 hM_ucyl_world[1][2] = R * u[1];
+	 hM_ucyl_world[2][2] = R * u[2];
+	 hM_ucyl_world[3][2] = 0;
+
+	 hM_ucyl_world[0][3] = R * v[0];
+	 hM_ucyl_world[1][3] = R * v[1];
+	 hM_ucyl_world[2][3] = R * v[2];
+	 hM_ucyl_world[3][3] = 0;*/
 
     /************************************************************************************/
 

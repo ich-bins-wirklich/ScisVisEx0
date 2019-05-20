@@ -18,6 +18,8 @@ in vec4 color_fs;
 
 in vec4 position;
 
+in vec2 zw_cl;
+
 
 //***** begin interface of surface.glsl ***********************************
 vec4 compute_reflected_appearance(vec3 position_eye, vec3 normal_eye, vec4 color, int side);
@@ -36,7 +38,7 @@ bool compute_ray_sphere_intersection(out vec3 p_eye, out vec3 n_eye)
                   for an easy intersection test based on texture coordinates.*/
 
      /*<your_code_here>*/
-	 float q_length_sq = quad.q_tilde[0]+quad.q_tilde[0] + quad.q_tilde[1]+quad.q_tilde[1];
+	 float q_length_sq = quad.q_tilde[0]*quad.q_tilde[0] + quad.q_tilde[1]*quad.q_tilde[1];
 	 if(q_length_sq > 1)
 		return false;
 
@@ -67,6 +69,9 @@ bool compute_ray_sphere_intersection(out vec3 p_eye, out vec3 n_eye)
      /*<your_code_here>*/
 
     /************************************************************************************/
+
+	float z_NDC = zw_cl[0] / zw_cl[1];
+	gl_FragDepth = 0.5*(z_NDC + 1);
 
     return true;
 }
