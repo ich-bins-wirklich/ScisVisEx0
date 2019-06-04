@@ -1,4 +1,4 @@
-# Exercise 2 - Particle
+# Exercise 3 - Terrain
 
 ## folder structure
 
@@ -6,9 +6,8 @@ All exercises are independent of each other.
 
     sci-vis-exercises
         |- build        --> solutions, libs, binaries will be build in this folder
-        |- 0-intro
-        |- 1-stereo
-        |- 2-particle   --> source code of recent exercise
+        |- ...
+        |- 3-terrain    --> source code of recent exercise
         |- cgv          --> clone of cgv framework repository
         |- data         --> example data like obj-files
 
@@ -28,8 +27,8 @@ When you initially use the *cgv/bin/generate_makefiles.bat* in the following ste
 #### create VS solution and compile
 
 - pull recent master branch from cgv framework!
-- drag *particle.pj*-file onto *cgv/bin/generate_makefiles.bat*
-- start solution from *build/* directory (e.g. *build/vs141/scivis-particle/scivis-particle.sln*)
+- drag *terrain.pj*-file onto *cgv/bin/generate_makefiles.bat*
+- start solution from *build/* directory (e.g. *build/vs141/scivis-terrain/scivis-terrain.sln*)
 - in Visual Studio: build solution either as *Debug DLL* or *Release DLL*
     - for loading meshes the Release DLL is the preferred option since it will take very long to load it in Debug mode
 
